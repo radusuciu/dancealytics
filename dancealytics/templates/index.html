@@ -15,7 +15,40 @@
         </div>
     </div>
 
+    <div class="analysis row" v-if="analysis">
+        <div class="five wide column">
+            <div class="ui card">
+                <div class="image">
+                    <img :src="track.image">
+                </div>
+                <div class="content">
+                    <div class="left floated">
+                        <div class="header">{{ track.title }}</div>
+                        <div class="meta">{{ track.artist }}</div>
+                    </div>
+                    <span class="right floated">
+                        <a :href="'https://open.spotify.com/track/' + track.id" _target="_blank"><i class="big green spotify icon"></i></a>
+                    </span>
+                </div>
+                <div class="extra content">
+                    <span class="left floated">
+                        <div>{{ analysis.duration_ms | millisecondsToTime }}</div>
+                        <div>{{ analysis.tempo.toFixed() }} BPM</div>
+                    </span>
+                    <span class="right floated">
+                        <div>Pitch Class: {{ analysis.key }}</div>
+                        <div>Time Sig.: {{ analysis.time_signature }}</div>
+                    </span>
+                </div>
+            </div>
+        </div>
 
+        <div class="eleven wide column">
+            <div :class="[item[1], 'ui', 'progress']" v-for="item in analysisCategories">
+                <div class="label">{{ item[0] }}</div>
+                <div :style="{ width: analysis[item[0]] * 100 + '%' }" class="bar"></div>
+            </div>
+        </div>
     </div>
 
 </div>
