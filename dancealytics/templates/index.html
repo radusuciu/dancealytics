@@ -2,14 +2,21 @@
 
 {% block content %}
 {% raw %}
-<div id="app">
-    <div class="ui fluid icon input">
-      <input type="text" placeholder="Arist - Song">
-      <i class="search icon"></i>
+<div id="app" class="ui middle aligned stackable grid">
+    <div class="row">
+        <div class="column">
+            <div class="ui fluid search">
+                <div class="ui fluid icon big input">
+                    <input class="prompt" type="text" placeholder="Arist - Song">
+                    <i class="search icon"></i>
+                </div>
+                <div class="results"></div>
+            </div>
+        </div>
     </div>
 
 
-    {{ message }}
+    </div>
 
 </div>
 {% endraw %}
