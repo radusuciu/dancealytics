@@ -22,7 +22,7 @@ def search():
 def autocomplete():
     term = request.args.get('term')
     suggestions = api.autocomplete(term)
-    return jsonify(suggestions)
+    return jsonify({ 'data': suggestions})
 
 @api_blueprint.route('/analyze/<track_id>')
 def analyze(track_id):
