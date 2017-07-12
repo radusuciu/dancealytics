@@ -1,0 +1,7 @@
+flask
+flask-migrate
+flask-sqlalchemy
+marshmallow
+pyyaml
+spotipy
+sqlalchemy
