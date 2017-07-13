@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+    dancealytics:
+        build: .
+        environment:
+            DEBUG: 'false'
+            FLASK_DEBUG: 0
