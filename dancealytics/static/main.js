@@ -16,7 +16,7 @@ var app = new Vue({
             ['instrumentalness', 'pink'],
             ['valence', 'purple'],
         ],
-        _routeState: { query: undefined, id: undefined },
+        routeState: { query: undefined, id: undefined },
         $autocomplete: undefined
     },
     methods: {
@@ -35,12 +35,12 @@ var app = new Vue({
                 state.query = encodeURIComponent(state.query);
             }
 
-            this._routeState = _.assign(this._routeState, state);
+            this.routeState = _.assign(this.routeState, state);
 
             history.replaceState(
-                this._routeState,
+                this.routeState,
                 '',
-                '#' + this._routeState.query + (this._routeState.id ? ('/' + this._routeState.id) : '')
+                '#' + this.routeState.query + (this.routeState.id ? ('/' + this.routeState.id) : '')
             );
         },
         setRouteFromURL: function() {
@@ -48,15 +48,15 @@ var app = new Vue({
             var state = {};
             // avoid double encoding
             if (hash[0]) state.query = decodeURIComponent(hash[0]);
-            if (hash[1]) state.id = hash[1]
+            if (hash[1]) state.id = hash[1];
 
             if (!_.isEmpty(state)) {
-                this._routeState = state;
+                this.routeState = state;
             }
         },
         syncRouteToApp: function() {
-            var id = this._routeState.id;
-            var query = this._routeState.query;
+            var id = this.routeState.id;
+            var query = this.routeState.query;
 
             if (query) {
                 if (id) $('.results').addClass('hide'); // hide results if we have an id
