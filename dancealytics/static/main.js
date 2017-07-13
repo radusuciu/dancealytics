@@ -30,6 +30,28 @@ var app = new Vue({
 
             });
         },
+        getAutocomplete: function(term, callback) {
+            // I know this function is redundant, but it is needed because
+            // I had trouble with getting autocomplete to get the results, but not show them
+            // this is what I get for trying to glue vue to semantic modules..
+            this.$http.get('/api/autocomplete', { params: { term : term } }).then(callback);
+        },
+        apiToAutocomplete: function(response) {
+            var results = [];
+
+            for (var i = 0, n = response.data.length; i < n; i++) {
+                results.push({
+                    id: response.data[i][0],
+                    title: response.data[i][3],
+                    description: '<strong>' + response.data[i][2] + '</strong><br>' + response.data[i][1],
+                    artist: response.data[i][1],
+                    album: response.data[i][2],
+                    image: response.data[i][4]
+                });
+            }
+
+            return results;
+        },
         route: function(state) {
             if (state.query) {
                 state.query = encodeURIComponent(state.query);
@@ -59,32 +81,19 @@ var app = new Vue({
             var query = this.routeState.query;
 
             if (query) {
-                if (id) $('.results').addClass('hide'); // hide results if we have an id
-            
                 // we're putting this back as an input value, so decode first
                 this.$autocomplete.search('set value', decodeURIComponent(query));
 
-                // trigger query and select track by id if id is set
-                // note that by doing this, we initially clear the id from route until we select it again
-                // this causes a server-trip long change in the url, but I think that's acceptable.
-                this.$autocomplete.search('query', function() {
-                    if (id) {
-                        var track = this.$autocomplete.search('get result', id);
-
-                        // ideally we could do something like
-                        // this.autocomplete.search('select', id)
-                        // which would trigger analyze automatically, but this behaviour is not documented
-                        // or does not exist for UI-Search at this time.
-                        this.analyze(track);
-
-                        this.$autocomplete.search('hide results', function() {
-                            // in a callback to account for transition that 'hide results' does
-                            $('.results').removeClass('hide');
-                        });
-                    }
-                }.bind(this));
+                if (id) {
+                    // if we have an id, we search out of band
+                    this.getAutocomplete(query, function(response) {
+                        var results = this.apiToAutocomplete(response.data);
+                        this.analyze(_.find(results, { id: id }));
+                    });
+                } else {
+                    this.$autocomplete.search('query');
+                }
             }
-
         }
     },
     filters: {
@@ -103,20 +112,7 @@ var app = new Vue({
             apiSettings: {
                 url: '/api/autocomplete?term={query}',
                 onResponse: function(response) {
-                    results = [];
-
-                    for (var i = 0, n = response.data.length; i < n; i++) {
-                        results.push({
-                            id: response.data[i][0],
-                            title: response.data[i][3],
-                            description: '<strong>' + response.data[i][2] + '</strong><br>' + response.data[i][1],
-                            artist: response.data[i][1],
-                            album: response.data[i][2],
-                            image: response.data[i][4]
-                        });
-                    }
-
-                    return { results: results }
+                    return { results: me.apiToAutocomplete(response) }
                 }
             },
             maxResults: 10,
