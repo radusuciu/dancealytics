@@ -47,9 +47,9 @@ var app = new Vue({
                     for (var i = 0, n = response.data.length; i < n; i++) {
                         results.push({
                             id: response.data[i][0],
-                            title: response.data[i][2],
+                            title: response.data[i][3],
                             description: response.data[i][1],
-                            image: response.data[i][3]
+                            image: response.data[i][4]
                         });
                     }
 

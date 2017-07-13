@@ -19,8 +19,9 @@ def autocomplete(term):
     return [(
         track['id'],
         ', '.join(a['name'] for a in track['artists']),
+        track['album']['name'],
         track['name'],
-        track['album']['images'][0]['url']
+        track['album']['images'][0]['url'],
     ) for track in tracks]
 
 def analyze(track_id):
