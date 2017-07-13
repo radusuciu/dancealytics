@@ -86,7 +86,9 @@ var app = new Vue({
 
                 if (id) {
                     // if we have an id, we search out of band
+                    this.$autocomplete.addClass('loading');
                     this.getAutocomplete(query, function(response) {
+                        this.$autocomplete.removeClass('loading');
                         var results = this.apiToAutocomplete(response.data);
                         this.analyze(_.find(results, { id: id }));
                     });
