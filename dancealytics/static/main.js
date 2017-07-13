@@ -117,7 +117,7 @@ var app = new Vue({
                     return { results: me.apiToAutocomplete(response) }
                 }
             },
-            maxResults: 10,
+            maxResults: 7,
             onSearchQuery: function(query) {
                 me.route({ query: query, id : undefined });
             },

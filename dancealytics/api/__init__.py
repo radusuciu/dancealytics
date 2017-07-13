@@ -12,7 +12,7 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
 def search(term):
-    return sp.search(term, type='track', limit=10)
+    return sp.search(term, type='track', limit=7)
 
 def autocomplete(term):
     tracks = search(term)['tracks']['items']
