@@ -1,6 +1,7 @@
 flask
 flask-migrate
 flask-sqlalchemy
+gunicorn
 marshmallow
 pyyaml
 spotipy

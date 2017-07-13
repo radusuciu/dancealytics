@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+    dancealytics:
+        image: dancealytics
+        environment:
+            DEBUG: 'true'
+            LC_ALL: 'C.UTF-8'
+            LANG: 'C.UTF-8'
+            FLASK_APP: 'dancealytics/__init__.py'
+            FLASK_DEBUG: 1
+        volumes:
+            - .:/home/dance/dancealytics
+        tty: true
+        stdin_open: true
