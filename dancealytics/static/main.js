@@ -36,8 +36,6 @@ var app = new Vue({
         }
     },
     mounted: function() {
-        var me = this;
-
         $('.ui.search').search({
             apiSettings: {
                 url: '/api/autocomplete?term={query}',
@@ -48,7 +46,9 @@ var app = new Vue({
                         results.push({
                             id: response.data[i][0],
                             title: response.data[i][3],
-                            description: response.data[i][1],
+                            description: '<strong>' + response.data[i][2] + '</strong><br>' + response.data[i][1],
+                            artist: response.data[i][1],
+                            album: response.data[i][2],
                             image: response.data[i][4]
                         });
                     }
@@ -56,14 +56,7 @@ var app = new Vue({
                     return { results: results }
                 }
             },
-            onSelect: function(result) {
-                me.analyze({
-                    id: result.id,
-                    artist: result.description,
-                    title: result.title,
-                    image: result.image
-                });
-            }
+            onSelect: this.analyze
         });
     }
 });
