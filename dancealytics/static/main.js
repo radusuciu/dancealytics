@@ -26,6 +26,12 @@ var app = new Vue({
             this.track = track;
 
             this.$http.get('/api/analyze/' + track.id).then(function(response) {
+                // scaling loudness since it's a decibel value between -60 and 0
+                // not picking -60 as the min point since the vast majority of tracks
+                // are way above that
+                var minLoudness = 20;
+                var loudness = minLoudness - Math.abs(response.data[0].loudness);
+                response.data[0].loudness = loudness / minLoudness;
                 this.analysis = response.data[0];
             }, function(error_response) {
 
