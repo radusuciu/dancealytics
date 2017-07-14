@@ -37,6 +37,9 @@ var app = new Vue({
 
             });
         },
+        explainCategory: function(category) {
+            this.selectedCategory = (category === this.selectedCategory) ? '' : category;
+        },
         getAutocomplete: function(term, callback) {
             // I know this function is redundant, but it is needed because
             // I had trouble with getting autocomplete to get the results, but not show them
