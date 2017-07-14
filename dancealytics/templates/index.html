@@ -57,10 +57,15 @@
         </div>
 
         <div class="eleven wide column">
-            <div :class="[item[1], 'ui', 'progress']" v-for="item in analysisCategories">
-                <div class="label">{{ item[0] }}</div>
-                <div :style="{ width: analysis[item[0]] * 100 + '%' }" class="bar"></div>
-            </div>
+            <template v-for="item in analysisCategories">
+                <div :class="[item[1], 'ui', 'progress']" @click="selectedCategory = item[0]">
+                    <div class="label">{{ item[0] }}</div>
+                    <div :style="{ width: analysis[item[0]] * 100 + '%' }" class="bar"></div>
+                </div>
+                <div :class="[item[1], 'ui', 'attached', 'segment']" v-show="selectedCategory == item[0]">
+                    {{ item[2] }}
+                </div>
+            </template>
         </div>
     </div>
     </template>
